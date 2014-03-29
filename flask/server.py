@@ -29,7 +29,7 @@ def focalpoint():
     im = Image.open(path)
 
     rsp = shannon.focalpoint(im)
-    return flask.jsonify(entropy=rsp['shannon'], x=rsp['x'], y=rsp['y'])
+    return flask.jsonify(**rsp)
 
 if __name__ == '__main__':
     debug = True	# sudo make me a CLI option

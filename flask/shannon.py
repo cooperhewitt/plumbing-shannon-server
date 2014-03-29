@@ -20,10 +20,11 @@ def focalpoint(img):
 	h = img.size[1]
 	dims = [ w,h ]
 
+	crop_size = 300
 	slice_size = 100
-	
+
 	tiles = []
-	max_shannon = 0
+	max_ent = 0
 	
 	for y in range(0,h,slice_size):
 		for x in range(0,w,slice_size):
@@ -34,13 +35,26 @@ def focalpoint(img):
 			tile = img.crop((x, y, mx, my))
 			buff.paste(tile, (0, 0))
 		
-			shannon = entropy(buff)
+			ent = entropy(buff)
 			
-			data = {'shannon':shannon, 'x':x, 'y':y}
-			if shannon > max_shannon:
-				max_shannon = shannon
+			data = {'entropy':ent, 'x':x, 'y':y}
+
+			if ent > max_ent:
+				max_ent = ent
 				tiles = data
-	
+
+        if tiles['x'] > slice_size:
+                tiles['x'] -= slice_size
+        
+        if tiles['y'] > slice_size:
+                tiles['y'] -= slice_size
+
+        if tiles['y'] + crop_size > h:
+                tiles['y'] = h - crop_size
+
+        if tiles['x'] + crop_size > w:
+                tiles['x'] = w - crop_size
+
 	return tiles
 
 if __name__ == '__main__' :
