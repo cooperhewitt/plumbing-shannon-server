@@ -55,6 +55,9 @@ def focalpoint(img):
         if (tiles['y'] + crop_size) > h:
                 tiles['y'] = h - crop_size
 
+        tiles['w'] = w
+        tiles['h'] = h
+
 	return tiles
 
 if __name__ == '__main__' :
