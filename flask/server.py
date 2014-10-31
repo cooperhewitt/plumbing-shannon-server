@@ -107,11 +107,9 @@ def _shannon(action):
 
         if action == 'focalpoint':
             rsp = shannon.focalpoint(im)
-            logging.debug(rsp)
         elif action == 'entropy':
             e = shannon.entropy(im)
             rsp = { 'entropy': e }
-            logging.debug(rsp)
         else:
             raise Exception, "Invalid action"
 
