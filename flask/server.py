@@ -5,12 +5,15 @@ import os.path
 
 import flask
 from flask_cors import cross_origin 
-from werkzeug.security import safe_join
+import werkzeug
+import werkzeug.security
 
 import shannon
 import Image
 
 import logging
+import tempfile
+import base64
 
 app = flask.Flask(__name__)
 
@@ -27,7 +30,8 @@ def get_path():
         flask.abort(400)
 
     if root:
-        safe = safe_join(root, path)
+
+        safe = werkzeug.security.safe_join(root, path)
 
         if not safe:
             logging.error("'%s' + '%s' considered harmful" % (root, path))
@@ -43,37 +47,85 @@ def get_path():
 
     return path
 
+def get_upload():
+
+    file = flask.request.files['file']
+
+    if file and allowed_file(file.filename):
+
+        tmpdir = tempfile.gettempdir()
+
+        rand = base64.urlsafe_b64encode(os.urandom(12))
+        secure = werkzeug.secure_filename(file.filename)
+
+        fname = "shannon-%s-%s" % (rand, secure)
+
+        safe = werkzeug.security.safe_join(tmpdir, fname)
+        logging.debug("save upload to %s" % safe)
+
+        file.save(safe)
+        return safe
+
+    flask.abort(400)
+
+def allowed_file(filename):
+    ALLOWED_EXTENSIONS = ('png', 'jpg', 'jpeg', 'gif')
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
 @app.route('/ping', methods=['GET'])
 @cross_origin(methods=['GET'])
 def ping():
     rsp = {'stat': 'ok'}
     return flask.jsonify(**rsp)
 
-@app.route('/entropy', methods=['GET'])
+@app.route('/entropy', methods=['GET', 'POST'])
 @cross_origin(methods=['GET'])
 def entropy():
 
-    path = get_path()
-    return _entropy(path)
+    return  _shannon('entropy')
 
-    return flask.jsonify(entropy=rsp)
-
-@app.route('/focalpoint', methods=['GET'])
+@app.route('/focalpoint', methods=['GET', 'POST'])
 @cross_origin(methods=['GET'])
 def focalpoint():
 
-    path = get_path()
-    rsp = _focalpoint(path)
+    return _shannon('focalpoint')
+
+def _shannon(action):
+
+    if flask.request.method=='POST':
+        path = get_upload()
+    else:
+        path = get_path()
+
+    logging.debug("%s %s %s" % (flask.request.method, action, path))
+
+    ok = True
+
+    try:
+
+        im = Image.open(path)
+
+        if action == 'focalpoint':
+            rsp = shannon.focalpoint(im)
+            logging.debug(rsp)
+        elif action == 'entropy':
+            e = shannon.entropy(im)
+            rsp = { 'entropy': e }
+            logging.debug(rsp)
+        else:
+            raise Exception, "Invalid action"
+
+    except Exception, e:
+        logging.error("failed to process %s, because %s" % (path, e))
+        ok = False
+
+    if flask.request.method=='POST':
+        os.unlink(path)
+
+    if not ok:
+        flask.abort(500)
 
     return flask.jsonify(**rsp)
-
-def _entropy(path):
-    im = Image.open(path)
-    return shannon.entropy(im)
-
-def _focalpoint(path):
-    im = Image.open(path)
-    return shannon.focalpoint(im)
     
 if __name__ == '__main__':
 
