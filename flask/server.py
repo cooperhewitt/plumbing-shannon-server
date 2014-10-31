@@ -11,17 +11,8 @@ import shannon
 import Image
 
 import logging
-logging.basicConfig(level=logging.INFO)
 
 app = flask.Flask(__name__)
-
-# Quick. And dirty. To figure out:
-# http://flask.pocoo.org/docs/config/
-# https://github.com/mbr/flask-appconfig
-# (20140602/straup)
-
-if os.environ.get('SHANNON_SERVER_IMAGE_ROOT', None):
-    app.config['SHANNON_SERVER_IMAGE_ROOT'] = os.environ['SHANNON_SERVER_IMAGE_ROOT']
 
 def get_path():
 
@@ -29,6 +20,11 @@ def get_path():
     logging.debug("request path is %s" % path)
 
     root = app.config.get('SHANNON_SERVER_IMAGE_ROOT', None)
+    logging.debug("image root is %s" % root)
+
+    if not root:
+        logging.error("image root is not defined")
+        flask.abort(400)
 
     if root:
         safe = safe_join(root, path)
@@ -58,9 +54,8 @@ def ping():
 def entropy():
 
     path = get_path()
-    im = Image.open(path)
+    return _entropy(path)
 
-    rsp = shannon.entropy(im)
     return flask.jsonify(entropy=rsp)
 
 @app.route('/focalpoint', methods=['GET'])
@@ -68,11 +63,44 @@ def entropy():
 def focalpoint():
 
     path = get_path()
-    im = Image.open(path)
+    rsp = _focalpoint(path)
 
-    rsp = shannon.focalpoint(im)
     return flask.jsonify(**rsp)
 
+def _entropy(path):
+    im = Image.open(path)
+    return shannon.entropy(im)
+
+def _focalpoint(path):
+    im = Image.open(path)
+    return shannon.focalpoint(im)
+    
 if __name__ == '__main__':
-    debug = True	# sudo make me a CLI option
-    app.run(debug=debug)
+
+    import sys
+    import optparse
+    import ConfigParser
+
+    parser = optparse.OptionParser()
+
+    parser.add_option("-c", "--config", dest="config", help="", action="store", default=None)
+    parser.add_option("-d", "--debug", dest="debug", help="enable chatty logging; default is false", action="store_true", default=False)
+
+    opts, args = parser.parse_args()
+
+    if opts.debug:
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.INFO)
+
+    cfg = ConfigParser.ConfigParser()
+    cfg.read(opts.config)
+
+    update = {
+        'DEBUG': opts.debug
+    }
+
+    update['SHANNON_SERVER_IMAGE_ROOT'] = cfg.get('shannon_server', 'image_root')
+
+    app.config.update(**update)
+    app.run()
