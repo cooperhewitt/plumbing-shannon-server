@@ -49,6 +49,7 @@ def get_path():
 
 def get_upload():
 
+    # sudo make 'file' a variable
     file = flask.request.files['file']
 
     if file and allowed_file(file.filename):
@@ -57,10 +58,14 @@ def get_upload():
 
         rand = base64.urlsafe_b64encode(os.urandom(12))
         secure = werkzeug.secure_filename(file.filename)
-
         fname = "shannon-%s-%s" % (rand, secure)
 
         safe = werkzeug.security.safe_join(tmpdir, fname)
+
+        if not safe:
+            logging.error("'%s' + '%s' considered harmful" % (tmpdir, fname))
+            flask.abort(400)
+
         logging.debug("save upload to %s" % safe)
 
         file.save(safe)
