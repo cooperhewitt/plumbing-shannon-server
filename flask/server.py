@@ -7,9 +7,13 @@ import logging
 import flask
 from flask_cors import cross_origin 
 
-import shannon
 import Image
 
+# This doesn't actually exist yet
+# import cooperhewitt.images.shannon as shannon
+import shannon
+
+# Waiting on a setup file and stuff
 # https://github.com/cooperhewitt/py-cooperhewitt-flask
 # import cooperhewitt.flask.http_pony as http_pony
 import http_pony

@@ -50,7 +50,7 @@ def get_upload_path(app, key='file'):
 
     file = flask.request.files[key]
 
-    if file and allowed_file(file.filename):
+    if file and allowed_file(app, file.filename):
 
         root = app.config.get('HTTP_PONY_UPLOAD_PATH_ROOT', None)
 
