@@ -71,6 +71,7 @@ def _shannon(action):
         ok = False
 
     if flask.request.method=='POST':
+        logging.debug("unlink %s" % path)
         os.unlink(path)
 
     if not ok:
