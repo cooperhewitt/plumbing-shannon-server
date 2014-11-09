@@ -43,11 +43,6 @@ def focalpoint():
 
 def _shannon(action):
 
-    if flask.request.method=='POST':
-        path = http_pony.get_upload_path(app)
-    else:
-        path = http_pony.get_local_path(app)
-
     try:
         if flask.request.method=='POST':
             path = http_pony.get_upload_path(app)
@@ -111,4 +106,7 @@ if __name__ == '__main__':
 
     http_pony.update_app_config(app, cfg)
 
-    app.run()
+    port = cfg.get('flask', 'port')
+    port = int(port)
+
+    app.run(port=port)

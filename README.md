@@ -9,7 +9,7 @@ A simple HTTP pony server for [cooperhewitt.roboteyes.shannon](https://github.co
 
 ## Endpoints
 
-### /ping 
+### GET /ping 
 
 	curl -X GET 'http://localhost:5000/ping'
 
@@ -17,9 +17,7 @@ A simple HTTP pony server for [cooperhewitt.roboteyes.shannon](https://github.co
 		"stat": "ok"
 	}
 
-### /entropy
-
-	# curl -X POST -F 'file=@/tmp/test.jpg' 'http://localhost:5000/entropy'
+### GET /entropy
 
 	curl -X GET 'http://localhost:5000/entropy?file=test.png'
 
@@ -27,11 +25,29 @@ A simple HTTP pony server for [cooperhewitt.roboteyes.shannon](https://github.co
 		"entropy": 9.386720101697886, 
 	}
 
-### /focalpoint
+### POST /entropy
 
-	# curl -X POST -F 'file=@/tmp/test.jpg' 'http://localhost:5000/focalpoint'
+	curl -X POST -F 'file=@/tmp/test.jpg' 'http://localhost:5000/entropy'
+
+	{
+		"entropy": 9.386720101697886, 
+	}
+
+### GET /focalpoint
 
 	curl -X GET 'http://localhost:5000/focalpoint?file=test.png'
+
+	{
+		"entropy": 9.386720101697886, 
+		"h": 480, 
+		"w": 640, 
+		"x": 100, 
+		"y": 180
+	}
+
+### POST /focalpoint
+
+	curl -X POST -F 'file=@/tmp/test.jpg' 'http://localhost:5000/focalpoint'
 
 	{
 		"entropy": 9.386720101697886, 
@@ -49,9 +65,15 @@ library which checks your Flask application's configuration for details about
 how to handle things.
 
 The following settings should be added to a standard [ini style configutation
-file](https://en.wikipedia.org/wiki/INI_file) in an `http_pony` section.
+file](https://en.wikipedia.org/wiki/INI_file).
 
-### http_pony
+### [flask]
+
+#### port
+
+The Unix TCP port you want your Flask server to listen on.
+
+### [http_pony]
 
 #### local_path_root
 
