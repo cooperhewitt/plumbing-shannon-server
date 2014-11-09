@@ -23,6 +23,9 @@ def get_local_path(app, key='file'):
     path = flask.request.args.get(key)
     logging.debug("request path is %s" % path)
 
+    if not path:
+        raise Exception, "there's nothing to process"
+
     root = app.config.get('HTTP_PONY_LOCAL_PATH_ROOT', None)
     logging.debug("image root is %s" % root)
 
@@ -64,7 +67,8 @@ def get_upload_path(app, key='file'):
         safe = werkzeug.security.safe_join(root, fname)
 
         if not safe:
-            raise Exception, "'%s' + '%s' considered harmful" % (root, fname)
+            e = "'%s' + '%s' considered harmful" % (root, fname)
+            raise Exception, e
 
         logging.debug("save upload to %s" % safe)
 

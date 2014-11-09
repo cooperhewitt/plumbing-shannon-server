@@ -43,6 +43,11 @@ def focalpoint():
 
 def _shannon(action):
 
+    if flask.request.method=='POST':
+        path = http_pony.get_upload_path(app)
+    else:
+        path = http_pony.get_local_path(app)
+
     try:
         if flask.request.method=='POST':
             path = http_pony.get_upload_path(app)
@@ -91,12 +96,13 @@ if __name__ == '__main__':
     parser = optparse.OptionParser()
 
     parser.add_option("-c", "--config", dest="config", help="", action="store", default=None)
-    parser.add_option("-d", "--debug", dest="debug", help="enable chatty logging; default is false", action="store_true", default=False)
+    parser.add_option("-v", "--verbose", dest="verbose", help="enable chatty logging; default is false", action="store_true", default=False)
 
     opts, args = parser.parse_args()
 
-    if opts.debug:
+    if opts.verbose:
         logging.basicConfig(level=logging.DEBUG)
+        logging.debug("verbose logging is enabled")
     else:
         logging.basicConfig(level=logging.INFO)
 
