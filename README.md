@@ -1,13 +1,18 @@
 # plumbing-shannon-server
 
-## Endpoints
+A simple HTTP pony server for [cooperhewitt.roboteyes.shannon](https://github.com/cooperhewitt/py-cooperhewitt-roboteyes-shannon) related functionality.
+
+## Setup
 
 	python ./flask/server.py -c server.cfg
 	INFO:werkzeug: * Running on http://127.0.0.1:5000/
 
+## Endpoints
+
 ### /ping 
 
-	curl 'http://localhost:5000/ping'
+	curl -X GET 'http://localhost:5000/ping'
+
 	{
 		"stat": "ok"
 	}
@@ -16,7 +21,7 @@
 
 	# curl -X POST -F 'file=@/tmp/test.jpg' 'http://localhost:5000/entropy'
 
-	curl 'http://localhost:5000/entropy?file=test.png'
+	curl -X GET 'http://localhost:5000/entropy?file=test.png'
 
 	{
 		"entropy": 9.386720101697886, 
@@ -26,7 +31,7 @@
 
 	# curl -X POST -F 'file=@/tmp/test.jpg' 'http://localhost:5000/focalpoint'
 
-	curl 'http://localhost:5000/focalpoint?file=test.png'
+	curl -X GET 'http://localhost:5000/focalpoint?file=test.png'
 
 	{
 		"entropy": 9.386720101697886, 
@@ -66,7 +71,23 @@ If not set then the operating system's temporary directory will be used.
 
 A comma-separate list of valid file extensions for processing.
 
+## Dependencies
+
+### Things you'll need to install yourself
+
+_Pending a proper `setup.py` file._
+
+* [Flask](http://flask.pocoo.org/)
+* [Flask-Cors](https://pypi.python.org/pypi/Flask-Cors/)
+
+### Things that come pre-bundled
+
+_The following are required but are available as libraries local to the server itself if not already pre-installed._
+
+* [cooperhewitt.flask.http_pony](https://github.com/cooperhewitt/py-cooperhewitt-flask)
+* [cooperhewitt.roboteyes.shannon](https://github.com/cooperhewitt/py-cooperhewitt-roboteyes-shannon)
+
 ## To do:
 
-* Better documentation
 * A proper `setup.py` file
+

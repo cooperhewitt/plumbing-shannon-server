@@ -9,14 +9,17 @@ from flask_cors import cross_origin
 
 import Image
 
-# This doesn't actually exist yet
-# import cooperhewitt.images.shannon as shannon
-import shannon
+try:
+    # https://github.com/cooperhewitt/py-cooperhewitt-roboteyes-shannon
+    import cooperhewitt.roboteyes.shannon as shannon
+except Exception, e:
+    import shannon
 
-# Waiting on a setup file and stuff
-# https://github.com/cooperhewitt/py-cooperhewitt-flask
-# import cooperhewitt.flask.http_pony as http_pony
-import http_pony
+try:
+    # https://github.com/cooperhewitt/py-cooperhewitt-flask
+    import cooperhewitt.flask.http_pony as http_pony
+except Exception, e:
+    import http_pony
 
 app = flask.Flask(__name__)
 
