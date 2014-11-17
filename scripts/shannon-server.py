@@ -78,25 +78,4 @@ def _shannon(action):
     
 if __name__ == '__main__':
 
-    import sys
-    import optparse
-
-    parser = optparse.OptionParser()
-
-    parser.add_option("-c", "--config", dest="config", help="", action="store", default=None)
-    parser.add_option("-v", "--verbose", dest="verbose", help="enable chatty logging; default is false", action="store_true", default=False)
-
-    opts, args = parser.parse_args()
-
-    if opts.verbose:
-        logging.basicConfig(level=logging.DEBUG)
-        logging.debug("verbose logging is enabled")
-    else:
-        logging.basicConfig(level=logging.INFO)
-
-    cfg = http_pony.update_app_config_from_file(app, opts.config)
-
-    port = cfg.get('flask', 'port')
-    port = int(port)
-
-    app.run(port=port)
+    http_pony.run_from_cli(app)
