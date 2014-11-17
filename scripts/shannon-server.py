@@ -80,7 +80,6 @@ if __name__ == '__main__':
 
     import sys
     import optparse
-    import ConfigParser
 
     parser = optparse.OptionParser()
 
@@ -95,7 +94,7 @@ if __name__ == '__main__':
     else:
         logging.basicConfig(level=logging.INFO)
 
-    http_pony.update_app_config_from_file(app, opts.config)
+    cfg = http_pony.update_app_config_from_file(app, opts.config)
 
     port = cfg.get('flask', 'port')
     port = int(port)

@@ -4,7 +4,7 @@ A simple HTTP pony server for [cooperhewitt.roboteyes.shannon](https://github.co
 
 ## Setup
 
-	python ./flask/server.py -c server.cfg
+	python ./scripts/shannon-server.py -c server.cfg
 	INFO:werkzeug: * Running on http://127.0.0.1:5000/
 
 ## Endpoints
