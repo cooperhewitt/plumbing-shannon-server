@@ -9,19 +9,13 @@ from flask_cors import cross_origin
 
 import Image
 
-try:
-    # https://github.com/cooperhewitt/py-cooperhewitt-roboteyes-shannon
-    import cooperhewitt.roboteyes.shannon as shannon
-except Exception, e:
-    import shannon
+import cooperhewitt.roboteyes.shannon as shannon
+import cooperhewitt.flask.http_pony as http_pony
 
-try:
-    # https://github.com/cooperhewitt/py-cooperhewitt-flask
-    import cooperhewitt.flask.http_pony as http_pony
-except Exception, e:
-    import http_pony
+# This replaces the normal
+# 'app = flask.Flask(__name__)' dance
 
-app = flask.Flask(__name__)
+app = http_pony.setup_flask_app('SHANNON_SERVER')
 
 @app.route('/ping', methods=['GET'])
 @cross_origin(methods=['GET'])
@@ -101,10 +95,7 @@ if __name__ == '__main__':
     else:
         logging.basicConfig(level=logging.INFO)
 
-    cfg = ConfigParser.ConfigParser()
-    cfg.read(opts.config)
-
-    http_pony.update_app_config(app, cfg)
+    http_pony.update_app_config_from_file(app, opts.config)
 
     port = cfg.get('flask', 'port')
     port = int(port)
