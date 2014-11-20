@@ -1,6 +1,6 @@
 # plumbing-shannon-server
 
-A simple HTTP pony server for [cooperhewitt.roboteyes.shannon](https://github.com/cooperhewitt/py-cooperhewitt-roboteyes-shannon) related functionality.
+A simple HTTP pony server for extracting "Shannon-related" properties from images.
 
 ## Setup
 
