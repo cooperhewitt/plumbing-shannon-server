@@ -17,16 +17,16 @@ PIDFILE=/var/run/shannon-server.pid
 case $1 in
     debug)
         echo "Starting shannon server (in debug mode)"
-	echo sudo $GUNICORN $GUNICORN_OPTS server:app
+	echo sudo $GUNICORN $GUNICORN_OPTS shannon-server:app
 
-	sudo $GUNICORN $GUNICORN_OPTS server:app
+	sudo $GUNICORN $GUNICORN_OPTS shannon-server:app
 
         ;;
     start)
 
         echo "Starting shannon server"
 
-	PID=`exec sudo $GUNICORN $GUNICORN_OPTS server:app > /dev/null 2>&1 & echo $!`
+	PID=`exec sudo $GUNICORN $GUNICORN_OPTS shannon-server:app > /dev/null 2>&1 & echo $!`
 	echo "PID: ${PID}"
 
         if [ -z $PID ]; then
