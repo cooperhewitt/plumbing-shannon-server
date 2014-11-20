@@ -7,16 +7,16 @@
 # update-rc.d gunicorn-shannon-server.sh defaults
 
 # Adjust to taste
-PALETTE_SERVER_CONFIG='/usr/local/plumbing-shannon-server/init.d/gunicorn-shannon-server.cfg'
+SHANNON_SERVER_CONFIG='/usr/local/plumbing-shannon-server/init.d/gunicorn-shannon-server.cfg'
 
 GUNICORN=`which gunicorn`
 GUNICORN_OPTS="-c ${SHANNON_SERVER_CONFIG}"
 
-PIDFILE=/var/run/palette-server.pid
+PIDFILE=/var/run/shannon-server.pid
 
 case $1 in
     debug)
-        echo "Starting palette server (in debug mode)"
+        echo "Starting shannon server (in debug mode)"
 	echo sudo $GUNICORN $GUNICORN_OPTS server:app
 
 	sudo $GUNICORN $GUNICORN_OPTS server:app
@@ -24,7 +24,7 @@ case $1 in
         ;;
     start)
 
-        echo "Starting palette server"
+        echo "Starting shannon server"
 
 	PID=`exec sudo $GUNICORN $GUNICORN_OPTS server:app > /dev/null 2>&1 & echo $!`
 	echo "PID: ${PID}"
@@ -39,7 +39,7 @@ case $1 in
 
         ;;
     stop)
-        echo "Stopping palette server"
+        echo "Stopping shannon server"
 
 	printf "%-50s" "Stopping $NAME"
             PID=`cat $PIDFILE`
@@ -58,7 +58,7 @@ case $1 in
         $0 start
         ;;
     status)
-        printf "%-50s" "Checking palette-server..."
+        printf "%-50s" "Checking shannon-server..."
         if [ -f $PIDFILE ]; then
             PID=`cat $PIDFILE`
             if [ -z "`ps axf | grep ${PID} | grep -v grep`" ]; then

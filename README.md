@@ -7,6 +7,12 @@ A simple HTTP pony server for [cooperhewitt.roboteyes.shannon](https://github.co
 	python ./scripts/shannon-server.py -c server.cfg
 	INFO:werkzeug: * Running on http://127.0.0.1:5000/
 
+Or
+
+	setenv SHANNON_SERVER_CONFIG server.cfg
+	python ./scripts/shannon-server.py
+	INFO:werkzeug: * Running on http://127.0.0.1:5000/
+
 ## Endpoints
 
 ### GET /ping 
@@ -93,23 +99,10 @@ If not set then the operating system's temporary directory will be used.
 
 A comma-separate list of valid file extensions for processing.
 
-## Dependencies
+## See also
 
-### Things you'll need to install yourself
-
-_Pending a proper `setup.py` file._
-
-* [Flask](http://flask.pocoo.org/)
-* [Flask-Cors](https://pypi.python.org/pypi/Flask-Cors/)
-
-### Things that come pre-bundled
-
-_The following are required but are available as libraries local to the server itself if not already pre-installed._
-
-* [cooperhewitt.flask.http_pony](https://github.com/cooperhewitt/py-cooperhewitt-flask)
-* [cooperhewitt.roboteyes.shannon](https://github.com/cooperhewitt/py-cooperhewitt-roboteyes-shannon)
-
-## To do:
-
-* A proper `setup.py` file
-
+* http://flask.pocoo.org/
+* https://pypi.python.org/pypi/Flask-Cors/
+* https://github.com/cooperhewitt/py-cooperhewitt-flask
+* https://github.com/cooperhewitt/py-cooperhewitt-roboteyes-shannon
+* http://labs.cooperhewitt.org/2013/default-sort-or-what-would-shannon-do/
