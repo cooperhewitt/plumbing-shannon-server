@@ -2,9 +2,15 @@
 
 A simple HTTP pony server for extracting "Shannon-related" properties from images.
 
-## Setup
+## Install
 
-	python ./scripts/shannon-server.py -c server.cfg
+	python ./setup.py install
+
+## Example
+
+The `setup.py` script will install the shannon-server in `/usr/local/bin` (or your operating system's equivalent) but you can also run it directly like this:
+
+	python ./script/shannon-server.py -c server.cfg
 	INFO:werkzeug: * Running on http://127.0.0.1:5000/
 
 Or
