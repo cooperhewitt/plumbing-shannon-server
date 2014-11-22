@@ -1,6 +1,6 @@
 # plumbing-shannon-server
 
-A simple HTTP pony server for extracting "Shannon-related" properties from images.
+A simple Flask-based HTTP pony server for extracting "Shannon-related" properties from images.
 
 ## Install
 
@@ -19,7 +19,7 @@ Or
 	python ./scripts/shannon-server.py
 	INFO:werkzeug: * Running on http://127.0.0.1:5000/
 
-You can also run `shannon-server` from any WSGI-compliant container-server-thing-y. Consult the [init.d folder](init.d) for an example of how to use `shannon-server` with [gunicorn](http://gxounicorn.org).
+You can also run `shannon-server` from any WSGI-compliant container-server-thing-y. Consult the [init.d folder](init.d) for an example of how to use `shannon-server` with [gunicorn](http://gunicorn.org).
 
 ## Endpoints
 
