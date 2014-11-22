@@ -19,6 +19,8 @@ Or
 	python ./scripts/shannon-server.py
 	INFO:werkzeug: * Running on http://127.0.0.1:5000/
 
+You can also run `shannon-server` from any WSGI-compliant container-server-thing-y. Consult the [init.d folder](init.d) for an example of how to use `shannon-server` with [gunicorn](http://gxounicorn.org).
+
 ## Endpoints
 
 ### GET /ping 
