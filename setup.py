@@ -3,7 +3,7 @@
 from setuptools import setup
 
 setup(name='plumbing-shannon-server',
-      version='0.2',
+      version='0.21',
       description='A Flask based HTTP pony for performing "Shannon-related" calculations on images',
       author='Cooper Hewitt Smithsonian Design Museum',
       url='https://github.com/cooperhewitt/plumbing-palette-server',
@@ -21,5 +21,5 @@ setup(name='plumbing-shannon-server',
       scripts=[
           'scripts/shannon-server.py',
       ],
-      download_url='https://github.com/cooperhewitt/plumbing-shannon-server/tarball/master#egg=plumbing-shannon-server#0.2',
+      download_url='https://github.com/cooperhewitt/plumbing-shannon-server/tarball/master#egg=plumbing-shannon-server#0.21',
       license='BSD')
